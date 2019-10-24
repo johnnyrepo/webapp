@@ -72,6 +72,12 @@ public class ClientController {
 
             return "redirect:/login";
         }
+        Client clientBefore = clientService.getClientByIdAndAppUserId(client.getId(), appUserId);
+        if (clientBefore == null) {
+            log.error("Currently logged in user has no rights to view/edit client id: {}", client.getId());
+
+            return "redirect:/clients";
+        }
         if (result.hasErrors()) {
             model.addAttribute("countries", countryRepository.findAll());
             return "client-edit";
